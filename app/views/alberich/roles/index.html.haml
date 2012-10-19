@@ -1,0 +1,23 @@
+%h1=t "Listing roles"
+
+%table
+  %tr
+    %th=t "Name"
+    %th=t "Scope"
+    %th=t "assign_to_owner"
+    %th
+    %th
+    %th
+
+  - @roles.each do |role|
+    %tr
+      %th= role.name
+      %th= role.scope
+      %th= role.assign_to_owner
+      %th= link_to 'Show', role
+      %th= link_to 'Edit', edit_role_path(role)
+      %th= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Role', new_role_path

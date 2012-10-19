@@ -1,0 +1,11 @@
+%p#notice= notice
+
+%h1= @role.name
+
+%ul
+  %li= "Scope: #{@role.scope}"
+  %li= "Assign to Owner: #{@role.assign_to_owner}"
+
+= link_to 'Edit', edit_role_path(@role)
+|
+= link_to 'Back', roles_path
