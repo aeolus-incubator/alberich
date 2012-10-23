@@ -1,0 +1,49 @@
+module Alberich
+  class BasePermissionObject < ActiveRecord::Base
+    attr_accessible :name
+
+    # FIXME include PermissionedObject
+    # FIXME has_many :permissions, :as => :permission_object, :dependent => :destroy,
+    #         :include => [:role],
+    #         :order => "permissions.id ASC"
+    # FIXME has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+    #         :include => [:role],
+    #         :order => "derived_permissions.id ASC"
+
+    validates_presence_of :name
+    validates_uniqueness_of :name
+
+    GENERAL_PERMISSION_SCOPE = "general_permission_scope"
+
+    def self.general_permission_scope
+      base_permission = self.find_by_name(GENERAL_PERMISSION_SCOPE)
+      unless base_permission
+        base_permission = self.create!(:name => GENERAL_PERMISSION_SCOPE)
+      end
+      base_permission
+    end
+
+    def permissions_for_type(obj_type)
+      role_ids = Role.where(:scope => "BasePermissionObject").
+        select { |role| role.privilege_target_match(obj_type)}.collect {|r| r.id}
+      # FIXME permissions.where("role_id in (:role_ids)", {:role_ids => role_ids})
+    end
+
+    def self.additional_privilege_target_types
+      Alberich.permissioned_object_classes.collect {|x| Kernel.const_get(x)}
+    end
+
+    def self.global_admin_permission_count
+      # FIXME self.general_permission_scope.permissions.includes(:role => :privileges).
+      #  where("privileges.target_type" => "BasePermissionObject",
+      #        "privileges.action" => Privilege::PERM_SET).size
+    end
+
+    def self.is_global_admin_perm(permission)
+      # FIXME permission.role.privileges.where("privileges.target_type" =>
+      #                                 "BasePermissionObject",
+      #                                 "privileges.action" =>
+      #                                 Privilege::PERM_SET).size > 0
+    end
+  end
+end

@@ -71,8 +71,6 @@ module Alberich
       # FIXME require_privilege(Privilege::PERM_SET)
       @role = Role.new(params[:role])
   
-      # TODO: (lmartinc) Fix this and let user select the scope. Consult with sseago.
-      #FIXME @role.scope = BasePermissionObject.to_s if @role.scope.nil?
       respond_to do |format|
         if @role.save
           format.html { redirect_to @role, notice: t("roles.flash.notice.added") }
