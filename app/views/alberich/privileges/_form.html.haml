@@ -1,0 +1,19 @@
+= form_for @privilege do |f|
+  - if @privilege.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@privilege.errors.count, "error")} prohibited this privilege from being saved:"
+      %ul
+        - @privilege.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :role_id
+  .field
+    = f.label :target_type
+    .input
+      = f.select :target_type, @target_type_list
+  .field
+    = f.label :action
+    .input
+      = f.select :action, @action_list
+  .actions
+    = f.submit 'Save'

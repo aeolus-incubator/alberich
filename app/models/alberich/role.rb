@@ -19,7 +19,7 @@ module Alberich
     VALID_SCOPES = ["Alberich::BasePermissionObject"] + Alberich.permissioned_object_classes
     #FIXME has_many :permissions, :dependent => :destroy
     #FIXME has_many :derived_permissions, :dependent => :destroy
-    #FIXME has_many :privileges, :dependent => :destroy
+    has_many :privileges, :dependent => :destroy
 
     attr_accessible :name, :assign_to_owner, :scope
 
@@ -27,12 +27,12 @@ module Alberich
     validates_presence_of :name
     validates_uniqueness_of :name
 
-    #FIXME validates_associated :privileges
+    validates_associated :privileges
 
     validates_length_of :name, :maximum => 255
     validates_inclusion_of :scope, :in => VALID_SCOPES
     def privilege_target_types
-      #FIXME privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
+      privileges.collect {|x| Kernel.const_get(x.target_type)}.uniq
     end
     def privilege_target_match(obj_type)
       (privilege_target_types & obj_type.active_privilege_target_types).any?

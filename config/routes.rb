@@ -1,4 +1,8 @@
 Alberich::Engine.routes.draw do
-  resources :roles
+  resources :privileges
+
+  resources :roles do
+    resources :privileges
+  end
 
 end

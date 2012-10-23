@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Target type:
+  = @privilege.target_type
+%p
+  %b Action:
+  = @privilege.action
+
+= link_to 'Edit', edit_privilege_path(@privilege)
+\|
+= link_to 'Back', privileges_path
