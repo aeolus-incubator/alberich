@@ -1,0 +1,11 @@
+%header.page-header
+  .obj_actions
+    .return_to
+      Return to
+      = link_to "users", users_path
+  %h1.users= @title
+
+%section.content-section.user
+  .content
+    = form_for @user do |f|
+      = render :partial => "form", :locals => { :form => f }

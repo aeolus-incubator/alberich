@@ -1,0 +1,11 @@
+%header.page-header
+  .obj_actions
+    .return_to
+      Return to
+      = link_to "user_groups", user_groups_path
+  %h1.users New user group
+
+%section.content-section.user
+  .content
+    = form_for @user_group do |f|
+      = render :partial => "form", :locals => { :form => f }

@@ -1,0 +1,57 @@
+%header.page-header
+  .obj_actions
+/    - if check_privilege(Privilege::VIEW, User)
+/      .return_to
+/        =t'return_to'
+/        = link_to t('users.users'), users_path
+
+%section.content-section.user
+  .content
+    #user_card.user_stats_card
+      %header.user-card-header
+        %h2= @user.username
+      %dl
+        %dt user Email
+        %dd= @user.email
+        %dt username
+        %dd= @user.username
+      .button-group
+        = link_to "Edit", edit_user_path(@user), :class => 'button'
+        - unless @user.id == current_user.id
+          = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+    %dl.user_stats
+      %ul
+        %div
+          %li
+            %dt Create time
+            %dd= l(@user.created_at.to_date, :format => :long) if @user.created_at
+          %li
+            %dt Number of logins
+            %dd= @user.login_count
+          %li
+            %dt Last login
+            %dd= l(@user.last_login_at, :format => :long) if @user.last_login_at
+        %div
+          %li
+            %dt Last updated
+            %dd= l(@user.updated_at, :format => :long) if @user.updated_at
+          %li
+            %dt Failed logins
+            %dd= @user.failed_login_count
+          %li
+            %dt Last Login IP
+            %dd= @user.last_login_ip
+
+%section.content-section.groups
+  %header
+    %h2.groups=t'users.groups'
+  .content
+//    = @user_groups.each  do |user_group|
+//      %tr{:class => cycle('nostripe','stripe')}
+//        %td= link_to user_group.name, user_group_path(user_group)
+//        %td= t("user_groups.#{user_group.membership_source.downcase}")
+%section.content-section.permissions
+  %header
+    %h2.permissions Permissions
+//  .content
+//    = render :partial => 'permissions/objects'

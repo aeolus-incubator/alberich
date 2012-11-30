@@ -1,0 +1,25 @@
+.field
+  = form.label :first_name, :class => 'em'
+  .input
+    = form.text_field :first_name, :class => "em long"
+.field
+  = form.label :last_name, :class => 'em'
+  .input
+    = form.text_field :last_name, :class => "em long"
+.field
+  = form.label :email, :class => 'em'
+  .input
+    = form.text_field :email, :class => "em long"
+.field
+  = form.label :username, :class => 'em'
+  .input
+    = form.text_field :username, :class => "em long"
+.field
+  = form.label :password, :class => 'em'
+  .input
+    = form.password_field :password, :class => "em long"
+.field
+  = form.label :password_confirmation, :class => 'em'
+  .input
+    = form.password_field :password_confirmation, :class => "em long"
+= form.submit
