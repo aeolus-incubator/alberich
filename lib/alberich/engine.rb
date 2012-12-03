@@ -5,6 +5,6 @@ module Alberich
       g.test_framework :rspec, :view_specs => false
       g.template_engine :haml
     end
-    config.active_record.observers = Alberich::EntityTargetObserver
+    config.active_record.observers = "alberich::Entity_target_observer"
   end
 end

@@ -1,6 +1,6 @@
 module Alberich
   class PermissionSession < ActiveRecord::Base
-    attr_accessible :session_id, :user_id
+    attr_accessible :session_id, :user_id, :user
 
     belongs_to :user, :class_name => Alberich.user_class
 

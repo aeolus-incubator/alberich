@@ -18,6 +18,8 @@ require_dependency "alberich/application_controller"
 
 module Alberich
   class RolesController < ApplicationController
+
+    before_filter :require_user
     # GET /roles
     # GET /roles.json
     def index
