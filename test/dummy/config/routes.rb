@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
-  resources :user_groups
+  resources :user_groups do
+    member do
+      get 'add_members'
+      get 'add_member'
+      delete 'remove_member'
+    end
+  end
 
   root      :to => "users#index"
 

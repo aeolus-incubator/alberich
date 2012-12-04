@@ -1,0 +1,18 @@
+%h1= "Add member to #{@user_group.name}"
+%table
+  %tr
+    %th username
+    %th last name
+    %th first name
+    %th email
+    %th
+
+  - @users.each do |user|
+    %tr
+      %th= user.username
+      %th= user.last_name
+      %th= user.first_name
+      %th= user.email
+      %th= link_to 'Add', add_member_user_group_path(@user_group, :user_id=>user)
+
+= link_to 'return to group', user_group_path(@user_group)

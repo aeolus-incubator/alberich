@@ -18,7 +18,7 @@
       .button-group
         = link_to "Edit", edit_user_path(@user), :class => 'button'
         - unless @user.id == current_user.id
-          = button_to "#{t('users.show.delete')}", user_path(@user), :method => :delete, :confirm => t('users.confirm_delete'), :class => "button danger"
+          = link_to "Delete", user_path(@user), :method => :delete, :confirm => "Are you sure you want to delete this user?", :class => "button danger"
     %dl.user_stats
       %ul
         %div
@@ -46,10 +46,9 @@
   %header
     %h2.groups=t'users.groups'
   .content
-//    = @user_groups.each  do |user_group|
-//      %tr{:class => cycle('nostripe','stripe')}
-//        %td= link_to user_group.name, user_group_path(user_group)
-//        %td= t("user_groups.#{user_group.membership_source.downcase}")
+    - @user.user_groups.each  do |user_group|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td= link_to user_group.name, user_group_path(user_group)
 %section.content-section.permissions
   %header
     %h2.permissions Permissions

@@ -3,8 +3,8 @@ require 'password'
 class User < ActiveRecord::Base
   attr_accessible :crypted_password, :current_login_at, :current_login_ip, :email, :failed_login_count, :first_name, :last_login_at, :last_login_ip, :last_name, :last_request_at, :login_count, :username, :password, :password_confirmation
 
-  #FIXME has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
-  #                        :foreign_key => "member_id"
+  has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
+                          :foreign_key => "member_id"
 
 
   # FIXME: reverse assocs for entity, session_entities

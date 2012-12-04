@@ -80,4 +80,41 @@ class UserGroupsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def add_member
+    @user_group = UserGroup.find(params[:id])
+    member = User.find(params[:user_id])
+    if !@user_group.members.include?(member) and
+        @user_group.members << member
+      flash[:notice] = "Added member: #{member}"
+    else
+      flash[:notice] = "Didn't add member: #{member}"
+    end
+    respond_to do |format|
+      format.html { redirect_to user_group_path(@user_group) }
+    end
+
+  end
+
+  def add_members
+    @user_group = UserGroup.find(params[:id])
+    @users = User.where('users.id not in (?)',
+                        @user_group.members.empty? ?
+                        0 : @user_group.members.map(&:id))
+  end
+
+  def remove_member
+    @user_group = UserGroup.find(params[:id])
+    member = User.find(params[:user_id])
+
+    if @user_group.members.delete member
+      flash[:notice] = "Removed member: #{member}"
+    else
+      flash[:notice] = "Failed to remove member: #{member}"
+    end
+    respond_to do |format|
+      format.html { redirect_to user_group_path(@user_group) }
+    end
+  end
+
 end
