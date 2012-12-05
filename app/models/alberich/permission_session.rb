@@ -8,25 +8,25 @@ module Alberich
     validates_presence_of :session_id
 
     def update_session_entities(user)
-      # FIXME SessionEntity.transaction do
+      SessionEntity.transaction do
         # skips callbacks, which should be fine here
-      #  SessionEntity.delete_all(:permission_session_id => self.id)
-      #  add_to_session(user)
-      #end
+        SessionEntity.delete_all(:permission_session_id => self.id)
+        add_to_session(user)
+      end
     end
 
-  def add_to_session(user)
-    return unless user
-    # create mapping for user-level permissions
-    # FIXME SessionEntity.create!(:permission_session_id => self.id,
-    #                      :user => user,
-    #                      :entity => user.entity)
-    # create mappings for local groups
-    user.send(Alberich.groups_for_user_method).each do |ug|
-      # FIXME SessionEntity.create!(:permission_session_id => self.id,
-      #                      :user => user,
-      #                      :entity => ug.entity)
+    def add_to_session(user)
+      return unless user
+      # create mapping for user-level permissions
+      SessionEntity.create!(:permission_session_id => self.id,
+                            :user => user,
+                            :entity => Entity.for_target(user))
+      # create mappings for groups
+      user.send(Alberich.groups_for_user_method).each do |ug|
+        SessionEntity.create!(:permission_session_id => self.id,
+                              :user => user,
+                              :entity => Entity.for_target(ug))
+      end
     end
-  end
   end
 end

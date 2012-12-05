@@ -4,7 +4,7 @@ module Alberich
 
     belongs_to :entity_target, :polymorphic => true
     validates_presence_of :entity_target_id
-    # FIXME has_many :session_entities, :dependent => :destroy
+    has_many :session_entities, :dependent => :destroy
     # FIXME has_many :permissions, :dependent => :destroy
     # FIXME has_many :derived_permissions, :dependent => :destroy
 
