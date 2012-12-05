@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
 
   def all_groups
     group_list = []
-    # FIXME group_list += self.user_groups
+    group_list += self.user_groups
     group_list
   end
 
