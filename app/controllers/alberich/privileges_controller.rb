@@ -1,7 +1,7 @@
 require_dependency "alberich/application_controller"
 
 module Alberich
-  class PrivilegesController < ApplicationController
+  class PrivilegesController < Alberich::ApplicationController
     # GET /privileges
     # GET /privileges.json
     def index
