@@ -31,6 +31,11 @@
 
 = link_to 'Add Member', add_members_user_group_path
 
+%section.content-section.permissions
+  %header
+    %h2.permissions Permissions
+  .content
+    = render :partial => 'alberich/permissions/objects'
 
 = link_to 'Edit', edit_user_group_path(@user_group)
 |

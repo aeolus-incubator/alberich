@@ -1,10 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  def current_session
-    @current_session ||= Alberich::PermissionSession.find_by_id(session[:permission_session_id])
-  end
-
   def require_user
     return if current_user or http_auth_user
     respond_to do |format|
@@ -54,6 +50,24 @@ class ApplicationController < ActionController::Base
   def back_or_default_url(default)
     return session[:return_to] || default
     session[:return_to] = nil
+  end
+
+  def add_permissions_tab(perm_obj, path_prefix = '',
+                          polymorphic_path_extras = {})
+    add_permissions_common(false, perm_obj, path_prefix,
+                           polymorphic_path_extras)
+    if "permissions" == params[:details_tab]
+      require_privilege(Privilege::PERM_VIEW, perm_obj)
+    end
+    if check_privilege(Privilege::PERM_VIEW, perm_obj)
+      if @tabs
+        @tabs << {:name => "Role Assignments",
+                  :view => 'permissions/permissions',
+                  :id => 'permissions',
+                  :count => perm_obj.permissions.count,
+                  :pretty_view_toggle => 'disabled'}
+      end
+    end
   end
 
 end

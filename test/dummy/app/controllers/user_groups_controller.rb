@@ -2,6 +2,7 @@ class UserGroupsController < ApplicationController
   # GET /user_groups
   # GET /user_groups.json
   def index
+    require_privilege(Alberich::Privilege::VIEW, User)
     @user_groups = UserGroup.all
 
     respond_to do |format|
@@ -13,7 +14,9 @@ class UserGroupsController < ApplicationController
   # GET /user_groups/1
   # GET /user_groups/1.json
   def show
+    require_privilege(Alberich::Privilege::VIEW, User)
     @user_group = UserGroup.find(params[:id])
+    add_profile_permissions_inline(Alberich::Entity.for_target(@user_group))
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,6 +27,7 @@ class UserGroupsController < ApplicationController
   # GET /user_groups/new
   # GET /user_groups/new.json
   def new
+    require_privilege(Alberich::Privilege::CREATE, User)
     @user_group = UserGroup.new
 
     respond_to do |format|
@@ -34,12 +38,14 @@ class UserGroupsController < ApplicationController
 
   # GET /user_groups/1/edit
   def edit
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
   end
 
   # POST /user_groups
   # POST /user_groups.json
   def create
+    require_privilege(Alberich::Privilege::CREATE, User)
     @user_group = UserGroup.new(params[:user_group])
 
     respond_to do |format|
@@ -56,6 +62,7 @@ class UserGroupsController < ApplicationController
   # PUT /user_groups/1
   # PUT /user_groups/1.json
   def update
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
 
     respond_to do |format|
@@ -72,6 +79,7 @@ class UserGroupsController < ApplicationController
   # DELETE /user_groups/1
   # DELETE /user_groups/1.json
   def destroy
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
     @user_group.destroy
 
@@ -82,6 +90,7 @@ class UserGroupsController < ApplicationController
   end
 
   def add_member
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
     member = User.find(params[:user_id])
     if !@user_group.members.include?(member) and
@@ -97,6 +106,7 @@ class UserGroupsController < ApplicationController
   end
 
   def add_members
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
     @users = User.where('users.id not in (?)',
                         @user_group.members.empty? ?
@@ -104,6 +114,7 @@ class UserGroupsController < ApplicationController
   end
 
   def remove_member
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.find(params[:id])
     member = User.find(params[:user_id])
 
