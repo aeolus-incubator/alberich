@@ -1,0 +1,45 @@
+- has_admin_perms =  check_privilege(Alberich::Privilege::PERM_SET)
+- prevent_admin_deletion = has_admin_perms && !(@show_inherited || @show_global) && (@permission_object == Alberich::BasePermissionObject.general_permission_scope) && (Alberich::BasePermissionObject.global_admin_permission_count == 1)
+- content_for :permissions_form_header do
+  - if not(@show_inherited or @show_global) && check_privilege(Alberich::Privilege::PERM_SET)
+    %li= link_to "Grant Access", new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
+
+  %span{:id => ("tab-container-1-nav" unless @inline)}
+    - unless @permission_object == Alberich::BasePermissionObject.general_permission_scope
+      - if @show_inherited
+        %li= link_to "Direct Access", params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to t"Global Access", params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
+      - elsif @show_global
+        %li= link_to "Direct Accress", params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to "Inherited Access", params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
+      - else
+        %li= link_to "Inherited Access", params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
+        %li= link_to "Global Access", params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
+
+= form_tag do
+  %div.controls
+    %ul.actions
+      = yield :permissions_form_header
+  %table.flat.checkbox_table{ 'data-none_selected' => "Please make a selection first.", 'data-confirm' => "Are you sure?" }
+    %thead
+      %tr
+        - @permission_list_header.each do |column|
+          - if column[:name] == 'checkbox'
+            - # checkboxes ignored for engine UI
+          -else
+            %th{:class => column[:class]}= column[:name]
+      - if !@permissions.any?
+        %tr
+          %td{:colspan => columns.size}= "No matching results"
+    - @permissions.each do |permission|
+      %tr{:class => cycle('nostripe','stripe')}
+        %td= permission.entity.entity_target.class.model_name.human
+        %td= link_to permission.entity.name, main_app.url_for(permission.entity.entity_target)
+        %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)
+        - if !(@show_inherited || @show_global) && has_admin_perms && !(prevent_admin_deletion && Alberich::BasePermissionObject.is_global_admin_perm(permission))
+          %td= link_to 'Destroy', permission, method: :delete, data: { confirm: 'Are you sure?' }
+        - if @show_inherited
+          %td= permission.permission.permission_object.name
+
+- if @permissions.respond_to?(:total_pages)
+  = render_pagination(@permissions)

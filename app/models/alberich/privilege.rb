@@ -13,12 +13,17 @@ module Alberich
 
     ACTIONS = [ CREATE, MODIFY, USE, VIEW,
                 PERM_SET, PERM_VIEW]
+    TARGET_TYPES = ["Alberich::BasePermissionObject"] +
+      Alberich.permissioned_object_classes +
+      Alberich.additional_privilege_scopes
 
     belongs_to :role
     validates_presence_of :role_id
     validates_presence_of :target_type
     validates_presence_of :action
     validates_uniqueness_of :action, :scope => [:target_type, :role_id]
+    validates_inclusion_of :target_type, :in => TARGET_TYPES
+    validates_inclusion_of :action, :in => ACTIONS
 
   end
 end

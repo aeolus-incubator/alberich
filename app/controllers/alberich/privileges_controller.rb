@@ -5,7 +5,7 @@ module Alberich
     # GET /privileges
     # GET /privileges.json
     def index
-      # FIXME require_privilege(Privilege::PERM_VIEW)
+      require_privilege(Privilege::PERM_VIEW)
       @privileges = Privilege.all
   
       respond_to do |format|
@@ -17,7 +17,7 @@ module Alberich
     # GET /privileges/1
     # GET /privileges/1.json
     def show
-      # FIXME require_privilege(Privilege::PERM_VIEW)
+      require_privilege(Privilege::PERM_VIEW)
       @privilege = Privilege.find(params[:id])
   
       respond_to do |format|
@@ -29,9 +29,9 @@ module Alberich
     # GET /privileges/new
     # GET /privileges/new.json
     def new
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @privilege = Privilege.new(:role_id => params[:role_id])
-      @target_type_list = Role::VALID_SCOPES
+      @target_type_list = Privilege::TARGET_TYPES
       @action_list = Privilege::ACTIONS
       respond_to do |format|
         format.html # new.html.erb
@@ -42,9 +42,9 @@ module Alberich
     # POST /privileges
     # POST /privileges.json
     def create
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @privilege = Privilege.new(params[:privilege])
-      @target_type_list = Role::VALID_SCOPES
+      @target_type_list = Privilege::TARGET_TYPES
       @action_list = Privilege::ACTIONS
   
       respond_to do |format|
@@ -60,9 +60,9 @@ module Alberich
   
     # GET /privileges/1/edit
     def edit
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @privilege = Privilege.find(params[:id])
-      @target_type_list = Role::VALID_SCOPES
+      @target_type_list = Privilege::TARGET_TYPES
       @action_list = Privilege::ACTIONS
       respond_to do |format|
         format.html # new.html.erb
@@ -73,9 +73,9 @@ module Alberich
     # PUT /privileges/1
     # PUT /privileges/1.json
     def update
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @privilege = Privilege.find(params[:id])
-      @target_type_list = Role::VALID_SCOPES
+      @target_type_list = Privilege::TARGET_TYPES
       @action_list = Privilege::ACTIONS
       respond_to do |format|
         if @privilege.update_attributes(params[:privilege])
@@ -91,7 +91,7 @@ module Alberich
     # DELETE /privileges/1
     # DELETE /privileges/1.json
     def destroy
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @privilege = Privilege.find(params[:id])
       role = @privilege.role
       @privilege.destroy

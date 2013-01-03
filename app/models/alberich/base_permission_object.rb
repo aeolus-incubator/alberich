@@ -2,10 +2,7 @@ module Alberich
   class BasePermissionObject < ActiveRecord::Base
     attr_accessible :name
 
-    # FIXME include PermissionedObject
-    # FIXME has_many :permissions, :as => :permission_object, :dependent => :destroy,
-    #         :include => [:role],
-    #         :order => "permissions.id ASC"
+    include PermissionedObject
     # FIXME has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
     #         :include => [:role],
     #         :order => "derived_permissions.id ASC"
@@ -26,7 +23,7 @@ module Alberich
     def permissions_for_type(obj_type)
       role_ids = Role.where(:scope => "BasePermissionObject").
         select { |role| role.privilege_target_match(obj_type)}.collect {|r| r.id}
-      # FIXME permissions.where("role_id in (:role_ids)", {:role_ids => role_ids})
+      permissions.where("role_id in (:role_ids)", {:role_ids => role_ids})
     end
 
     def self.additional_privilege_target_types
@@ -34,16 +31,16 @@ module Alberich
     end
 
     def self.global_admin_permission_count
-      # FIXME self.general_permission_scope.permissions.includes(:role => :privileges).
-      #  where("privileges.target_type" => "BasePermissionObject",
-      #        "privileges.action" => Privilege::PERM_SET).size
+      self.general_permission_scope.permissions.includes(:role => :privileges).
+        where("alberich_privileges.target_type" => "Alberich::BasePermissionObject",
+              "alberich_privileges.action" => Privilege::PERM_SET).size
     end
 
     def self.is_global_admin_perm(permission)
-      # FIXME permission.role.privileges.where("privileges.target_type" =>
-      #                                 "BasePermissionObject",
-      #                                 "privileges.action" =>
-      #                                 Privilege::PERM_SET).size > 0
+      permission.role.privileges.where("alberich_privileges.target_type" =>
+                                       "Alberich::BasePermissionObject",
+                                       "alberich_privileges.action" =>
+                                       Privilege::PERM_SET).size > 0
     end
   end
 end

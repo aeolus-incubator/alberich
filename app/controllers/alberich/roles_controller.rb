@@ -23,11 +23,7 @@ module Alberich
     # GET /roles
     # GET /roles.json
     def index
-      # FIXME require_privilege(Privilege::PERM_VIEW)
-      # FIXME: do we paginate in the engine?
-      #@roles = Role.paginate(:page => params[:page] || 1,
-      #  :order => (sort_column(Role)+' '+ (sort_direction))
-      #)
+      require_privilege(Privilege::PERM_VIEW)
       @roles = Role.all
   
       respond_to do |format|
@@ -39,7 +35,7 @@ module Alberich
     # GET /roles/1
     # GET /roles/1.json
     def show
-      # FIXME require_privilege(Privilege::PERM_VIEW)
+      require_privilege(Privilege::PERM_VIEW)
       @role = Role.find(params[:id])
   
       respond_to do |format|
@@ -51,7 +47,7 @@ module Alberich
     # GET /roles/new
     # GET /roles/new.json
     def new
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @role = Role.new
       @scope_list = Role::VALID_SCOPES
       respond_to do |format|
@@ -62,7 +58,7 @@ module Alberich
   
     # GET /roles/1/edit
     def edit
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @role = Role.find(params[:id])
       @scope_list = Role::VALID_SCOPES
     end
@@ -70,7 +66,7 @@ module Alberich
     # POST /roles
     # POST /roles.json
     def create
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @role = Role.new(params[:role])
   
       respond_to do |format|
@@ -87,7 +83,7 @@ module Alberich
     # PUT /roles/1
     # PUT /roles/1.json
     def update
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @role = Role.find(params[:id])
   
       respond_to do |format|
@@ -104,7 +100,7 @@ module Alberich
     # DELETE /roles/1
     # DELETE /roles/1.json
     def destroy
-      # FIXME require_privilege(Privilege::PERM_SET)
+      require_privilege(Privilege::PERM_SET)
       @role = Role.find(params[:id])
       @role.destroy
   
