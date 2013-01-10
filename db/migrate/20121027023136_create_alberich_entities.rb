@@ -14,13 +14,13 @@ class CreateAlberichEntities < ActiveRecord::Migration
         entity.save!
       end
     end
-    # FIXME Alberich.user_group_class.constantize.all.each do |ug|
-    #  unless ug.entity
-    #    entity = Entity.new(:entity_target => ug)
-    #    entity.name = ug.to_s
-    #    entity.save!
-    #  end
-    #end
+    Alberich.user_group_class.constantize.all.each do |ug|
+      unless ug.entity
+        entity = Entity.new(:entity_target => ug)
+        entity.name = ug.to_s
+        entity.save!
+      end
+    end
   end
   def down
     drop_table :alberich_entities

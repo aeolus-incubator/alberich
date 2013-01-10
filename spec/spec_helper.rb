@@ -1,7 +1,6 @@
 # Setup Rails Envinronment
 ENV["RAILS_ENV"] = "test"
 require File.expand_path("../../test/dummy/config/environment.rb",  __FILE__)
-require File.expand_path("../../lib/image_factory/image_factory.rb",  __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
 
@@ -18,6 +17,12 @@ end
 RSpec.configure do |config|
   config.color_enabled = true
   config.formatter     = 'documentation'
+  config.use_transactional_fixtures = true
+
+  config.include Warden::Test::Helpers, :type => :request
+  config.after(:each, :type => :request) do
+    Warden.test_reset!
+  end
 end
 
 # Override to_xml to use underscore rather than dash
@@ -53,3 +58,19 @@ module RequestContentTypeHelper
 end
 
 include RequestContentTypeHelper
+def mock_warden(user)
+  request.env['warden'] = mock(Warden, :authenticate => user,
+                                       :authenticate! => user,
+                                       :user => user,
+                                       :raw_session => nil)
+  @session_id = 'ee73441902cb9445483e498cb05dc398'
+  request.session_options[:id] = @session_id
+  #@session = ActiveRecord::SessionStore::Session.find_by_session_id(@session_id)
+  #@session = FactoryGirl.create :session unless @session
+  if user
+    @permission_session = PermissionSession.create!(:user => user,
+                                                    :session_id => @session_id)
+    request.session[:permission_session_id] = @permission_session.id
+    @permission_session.update_session_entities(user)
+  end
+end

@@ -18,7 +18,7 @@ module Alberich
   class Role < ActiveRecord::Base
     VALID_SCOPES = ["Alberich::BasePermissionObject"] + Alberich.permissioned_object_classes
     has_many :permissions, :dependent => :destroy
-    #FIXME has_many :derived_permissions, :dependent => :destroy
+    has_many :derived_permissions, :dependent => :destroy
     has_many :privileges, :dependent => :destroy
 
     attr_accessible :name, :assign_to_owner, :scope

@@ -3,10 +3,6 @@ module Alberich
     attr_accessible :name
 
     include PermissionedObject
-    # FIXME has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-    #         :include => [:role],
-    #         :order => "derived_permissions.id ASC"
-
     validates_presence_of :name
     validates_uniqueness_of :name
 

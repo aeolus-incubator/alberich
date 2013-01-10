@@ -6,12 +6,11 @@ module Alberich
                :dependent => :destroy,
                :include => [:role],
                :order => "alberich_permissions.id ASC"
-    end
 
-    def derived_permissions
-      # FIXME -- real value when derived permissons model is included
-      Permission.where(:permission_object_id=>self.id,
-                       :permission_object_type=>self.class)
+      has_many :derived_permissions, :as => :permission_object,
+               :dependent => :destroy,
+               :include => [:role],
+               :order => "alberich_derived_permissions.id ASC"
     end
 
     def has_privilege(permission_session, user, action, target_type=nil)

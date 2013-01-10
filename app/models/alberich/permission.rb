@@ -17,9 +17,9 @@ module Alberich
     belongs_to :base_permission_object, :class_name => "BasePermissionObject",
                                         :foreign_key => "permission_object_id"
 
-    # FIXME has_many :derived_permissions, :dependent => :destroy
+    has_many :derived_permissions, :dependent => :destroy
 
-    # FIXME after_save :update_derived_permissions
+    after_save :update_derived_permissions
 
     def user
       entity.user
