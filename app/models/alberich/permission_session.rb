@@ -3,6 +3,7 @@ module Alberich
     attr_accessible :session_id, :user_id, :user
 
     belongs_to :user, :class_name => Alberich.user_class
+    has_many :session_entities
 
     validates_presence_of :user_id
     validates_presence_of :session_id

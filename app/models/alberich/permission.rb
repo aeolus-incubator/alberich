@@ -1,6 +1,6 @@
 module Alberich
   class Permission < ActiveRecord::Base
-    attr_accessible :entity_id, :role_id, :permission_object
+    attr_accessible :entity, :role, :entity_id, :role_id, :permission_object
 
     belongs_to :role
     belongs_to :entity

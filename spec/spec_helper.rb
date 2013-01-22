@@ -23,6 +23,13 @@ RSpec.configure do |config|
   config.after(:each, :type => :request) do
     Warden.test_reset!
   end
+  config.backtrace_clean_patterns = [
+    /\/lib\d*\/ruby\//,
+    /bin\//,
+    #/gems/,
+    #/spec\/spec_helper\.rb/,
+    /lib\/rspec\/(core|expectations|matchers|mocks)/
+  ]
 end
 
 # Override to_xml to use underscore rather than dash
@@ -65,10 +72,8 @@ def mock_warden(user)
                                        :raw_session => nil)
   @session_id = 'ee73441902cb9445483e498cb05dc398'
   request.session_options[:id] = @session_id
-  #@session = ActiveRecord::SessionStore::Session.find_by_session_id(@session_id)
-  #@session = FactoryGirl.create :session unless @session
   if user
-    @permission_session = PermissionSession.create!(:user => user,
+    @permission_session = Alberich::PermissionSession.create!(:user => user,
                                                     :session_id => @session_id)
     request.session[:permission_session_id] = @permission_session.id
     @permission_session.update_session_entities(user)
