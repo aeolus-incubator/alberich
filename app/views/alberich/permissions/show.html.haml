@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Role:
+  = @permission.role_id
+%p
+  %b Entity:
+  = @permission.entity_id
+
+= link_to 'Edit', edit_permission_path(@permission)
+\|
+= link_to 'Back', permissions_path

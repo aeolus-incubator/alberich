@@ -1,0 +1,6 @@
+See the newly installed alberich.rb in your initializers directory for
+default settings.
+
+As an example. you can choose different classes for Alberich to hook
+into for user and user group, just specify those
+classes here.

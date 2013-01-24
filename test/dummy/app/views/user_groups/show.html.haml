@@ -1,0 +1,42 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @user_group.name
+
+%p
+  %b Description:
+  = @user_group.description
+
+%p Members
+
+%table
+  %tr
+    %th username
+    %th last name
+    %th first name
+    %th email
+    %th
+    %th
+
+  - @user_group.members.each do |user|
+    %tr
+      %th= user.username
+      %th= user.last_name
+      %th= user.first_name
+      %th= user.email
+      %th= link_to 'Show', user
+      %th= link_to 'Remove', remove_member_user_group_path(@user_group, :user_id=>user), method: :delete, data: { confirm: 'Are you sure?' }
+%br
+
+= link_to 'Add Member', add_members_user_group_path
+
+%section.content-section.permissions
+  %header
+    %h2.permissions Permissions
+  .content
+    = render :partial => 'alberich/permissions/objects'
+
+= link_to 'Edit', edit_user_group_path(@user_group)
+|
+= link_to 'Back', user_groups_path

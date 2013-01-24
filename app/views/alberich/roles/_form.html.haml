@@ -1,0 +1,24 @@
+= form_for(@role) do |f|
+  - if @role.errors.any?
+    %div#error_explanation
+      %h2= "#{pluralize(@role.errors.count, 'error')} prohibited this role from being saved:"
+
+      %ul
+      - @role.errors.full_messages.each do |msg|
+        %li= msg
+  %fieldset
+    .field
+      = f.label :name, :class => 'em'
+      .input
+        = f.text_field :name, :class => "em long"
+    .field
+      = f.label :scope, :class => 'em'
+      .input
+        = f.select :scope, @scope_list
+    .field
+      = f.label :assign_to_owner, :class => 'checkbox'
+      .input
+        = f.check_box :assign_to_owner
+
+  %div.actions
+    = f.submit

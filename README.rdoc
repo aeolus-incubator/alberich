@@ -1,0 +1,37 @@
+= Alberich
+
+Alberich is a model-integrated permissions engine that allows access
+control, and list filtering based on  user and group-assigned
+permissions both globally and at an individual resouce level.
+
+== Running Tests
+
+Tests are run from the project root directory.  But are run in the
+context of the dummy app located under test/dummy.  In order to run
+the tests you must first setup dummy app database.
+
+rake db:setup; rake -f test/dummy/Rakefile test:prepare
+
+Once you have done this cd to the project root and run the following:
+
+rake spec
+
+== Running the Dummy app
+
+This will allow you to run the commands below to test out the engine
+in isolation (if mounted in another application, the main difference
+will just be where the engine gets mounted, so adjust your url
+accordingly).
+
+cd test/dummy; rails s
+
+== Installation notes
+
+When alberich is installed, an 'entity' object will be created for
+each user and user group in your system. This is a placeholder object
+which is used as the target for permission grants that can be applied
+to either a user or a group.
+
+== License
+
+Alberich is released under the MIT license.

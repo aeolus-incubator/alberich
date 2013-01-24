@@ -1,0 +1,17 @@
+%table
+  %tr
+    %th Target type
+    %th Action
+    %th
+    %th
+    %th
+
+  - privileges.each do |privilege|
+    %tr
+      %td= privilege.target_type
+      %td= privilege.action
+      %td= link_to 'Show', privilege
+      %td= link_to 'Edit', edit_privilege_path(privilege)
+      %td= link_to 'Destroy', privilege, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br

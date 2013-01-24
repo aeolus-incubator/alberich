@@ -1,0 +1,26 @@
+= content_for :title do
+  Alberich test application
+
+= content_for :notifications do
+  -if flash[:warning]
+    %div.error
+      %p.text= flash[:warning]
+
+= content_for(:content) do
+  %h1 Log in
+  .card
+    = form_tag user_session_path, :id => 'login_form', :method => "post"  do
+      %fieldset.primary
+        = label_tag :username, "username"
+        = text_field_tag :username, params[:username], :class => 'username', :id => "username"
+      %fieldset.primary
+        = label_tag :password, "password"
+        = password_field_tag :password, params[:password], :class => 'password', :id => 'password-input'
+      = submit_tag "Log in", :class => "button fr", :id => 'login_btn'
+      .spinner
+
+%div.container
+  #notifications
+    = yield :notifications
+  %section
+    = yield :content

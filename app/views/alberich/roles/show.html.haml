@@ -1,0 +1,16 @@
+%p#notice= notice
+
+%h1= @role.name
+
+%ul
+  %li= "Scope: #{@role.scope}"
+  %li= "Assign to Owner: #{@role.assign_to_owner}"
+
+  %li
+    %h2 Privileges
+    = render :partial => 'alberich/privileges/list', :locals => { :privileges => @role.privileges }
+    = link_to 'New Privilege', new_role_privilege_path(@role)
+
+= link_to 'Edit', edit_role_path(@role)
+|
+= link_to 'Back', roles_path
