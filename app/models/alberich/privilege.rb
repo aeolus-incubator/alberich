@@ -1,6 +1,6 @@
 module Alberich
   class Privilege < ActiveRecord::Base
-    attr_accessible :action, :role_id, :target_type
+    attr_accessible :action, :role, :role_id, :target_type
 
     PERM_SET  = "set_perms"    # can create/modify/delete permission
                                # records on this object
