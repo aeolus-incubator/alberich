@@ -1,0 +1,7 @@
+cd ../../
+bundle exec rake build
+cp pkg/alberich-*.gem ~/rpmbuild/SOURCES/
+rpmbuild -bs distros/rpm/rubygem-alberich.spec
+mock rebuild -r fedora-18-x86_64 ~/rpmbuild/SRPMS/rubygem-alberich-*.src.rpm
+#mock rebuild -r fedora-18-x86_64 ~/rpmbuild/SRPMS/rubygem-alberich-*.$(rpm --eval '%dist').src.rpm
+cd distros/rpm
