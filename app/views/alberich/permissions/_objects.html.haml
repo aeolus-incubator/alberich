@@ -28,7 +28,7 @@
         - else
           %td= permission_object_type
           %td= link_to permission.permission_object.name, permission.permission_object
-        %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)
+        %td= permission.role.name
         - if not(@show_inherited) && check_privilege(Alberich::Privilege::PERM_SET)
           %td= link_to 'Destroy', alberich.permission_path(permission), method: :delete, data: { confirm: 'Are you sure?' }
         - if @show_inherited

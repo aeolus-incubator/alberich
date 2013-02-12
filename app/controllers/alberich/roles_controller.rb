@@ -55,7 +55,7 @@ module Alberich
   
       respond_to do |format|
         if @role.save
-          format.html { redirect_to @role, notice: t("roles.flash.notice.added") }
+          format.html { redirect_to @role, notice: "New role added"}
           format.json { render json: @role, status: :created, location: @role }
         else
           format.html { render action: "new" }
@@ -72,7 +72,7 @@ module Alberich
   
       respond_to do |format|
         if @role.update_attributes(params[:role])
-          format.html { redirect_to @role, notice: t("roles.flash.notice.added")}
+          format.html { redirect_to @role, notice: "New role added"}
           format.json { head :no_content }
         else
           format.html { render action: "edit" }

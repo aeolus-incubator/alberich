@@ -49,7 +49,7 @@ module Alberich
   
       respond_to do |format|
         if @privilege.save
-          format.html { redirect_to @privilege.role, notice: t("privileges.flash.notice.added") }
+          format.html { redirect_to @privilege.role, notice: "New privilege added" }
           format.json { render json: @privilege, status: :created, location: @privilege }
         else
           format.html { render action: "new" }
@@ -79,7 +79,7 @@ module Alberich
       @action_list = Privilege::ACTIONS
       respond_to do |format|
         if @privilege.update_attributes(params[:privilege])
-          format.html { redirect_to @privilege.role, notice: t("privileges.flash.notice.added")}
+          format.html { redirect_to @privilege.role, notice: "New privilege added"}
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
