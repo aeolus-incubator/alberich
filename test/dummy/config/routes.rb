@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :standalone_resources
+
+
   resources :global_resources
 
 

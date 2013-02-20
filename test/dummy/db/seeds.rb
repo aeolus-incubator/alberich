@@ -18,9 +18,13 @@ VPRM = "view_perms"
 GPRM = "set_perms"
 roles =
   {
+    StandaloneResource =>
+      {"StandaloneResource User" => [false, {StandaloneResource => [VIEW,USE]}],
+       "StandaloneResource Owner"=> [true,  {StandaloneResource => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Alberich::BasePermissionObject =>
     {"Site Admin" => [false, {User         => [VIEW,    MOD,CRE,VPRM,GPRM],
                               GlobalResource => [VIEW,    MOD,CRE,VPRM,GPRM],
+                              StandaloneResource => [VIEW,USE,MOD,CRE,VPRM,GPRM],
         Alberich::BasePermissionObject    => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]}}
 Alberich::Role.transaction do
   roles.each do |role_scope, scoped_hash|
