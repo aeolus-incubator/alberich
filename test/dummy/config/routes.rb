@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :global_resources
+
+
   resources :user_groups do
     member do
       get 'add_members'

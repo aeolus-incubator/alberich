@@ -19,7 +19,8 @@ GPRM = "set_perms"
 roles =
   {
    Alberich::BasePermissionObject =>
-    {"Site Admin" => [false, {User        => [VIEW,    MOD,CRE,VPRM,GPRM],
+    {"Site Admin" => [false, {User         => [VIEW,    MOD,CRE,VPRM,GPRM],
+                              GlobalResource => [VIEW,    MOD,CRE,VPRM,GPRM],
         Alberich::BasePermissionObject    => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]}}
 Alberich::Role.transaction do
   roles.each do |role_scope, scoped_hash|
