@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :child_resources
+
+
+  resources :parent_resources
+
+
   resources :standalone_resources
 
 

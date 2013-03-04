@@ -21,10 +21,20 @@ roles =
     StandaloneResource =>
       {"StandaloneResource User" => [false, {StandaloneResource => [VIEW,USE]}],
        "StandaloneResource Owner"=> [true,  {StandaloneResource => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+   ChildResource =>
+      {"ChildResource User" => [false, {ChildResource => [VIEW,USE]}],
+       "ChildResource Owner"=> [true,  {ChildResource => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+   ParentResource =>
+      {"ParentResource User" => [false, {ParentResource => [VIEW,USE],
+                                         ChildResource  => [             CRE]}],
+       "ParentResource Owner"=> [true,  {ParentResource => [VIEW,USE,MOD,    VPRM,GPRM],
+                                         ChildResource  => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
    Alberich::BasePermissionObject =>
     {"Site Admin" => [false, {User         => [VIEW,    MOD,CRE,VPRM,GPRM],
                               GlobalResource => [VIEW,    MOD,CRE,VPRM,GPRM],
                               StandaloneResource => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                              ParentResource     => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+                              ChildResource      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
         Alberich::BasePermissionObject    => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]}}
 Alberich::Role.transaction do
   roles.each do |role_scope, scoped_hash|

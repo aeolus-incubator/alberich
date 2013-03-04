@@ -1,0 +1,2 @@
+module ParentResourcesHelper
+end
