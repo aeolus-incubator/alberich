@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html do
         store_location
-        flash[:notice] = t('application_controller.flash.notice.must_be_logged')
+        flash[:notice] = "Please log in first."
         redirect_to login_url
       end
       format.js { head :unauthorized }
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def require_no_user
     return true unless current_user
     store_location
-    flash[:notice] = t('application_controller.flash.notice.must_not_be_logged')
+    flash[:notice] = "You must be logged out to access this page."
     redirect_to account_url
   end
 

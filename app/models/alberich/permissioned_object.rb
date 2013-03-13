@@ -3,11 +3,13 @@ module Alberich
     extend ActiveSupport::Concern
     included do
       has_many :permissions, :as => :permission_object,
+               :class_name => 'Alberich::Permission',
                :dependent => :destroy,
                :include => [:role],
                :order => "alberich_permissions.id ASC"
 
       has_many :derived_permissions, :as => :permission_object,
+               :class_name => 'Alberich::DerivedPermission',
                :dependent => :destroy,
                :include => [:role],
                :order => "alberich_derived_permissions.id ASC"
@@ -84,7 +86,7 @@ module Alberich
                                               { :assign => true,
                                                 :scope => self.class.default_privilege_target_type.name}])
       roles.each do |role|
-        Permission.create!(:role => role, :entity => user.entity,
+        Permission.create!(:role => role, :entity => Entity.for_target(user),
                            :permission_object => self)
       end
       self.reload

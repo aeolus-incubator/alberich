@@ -17,7 +17,83 @@ FactoryGirl.define do
                    ["User", "set_perms"],
                    [ "User", "view"],
                    [ "User", "create"],
-                   ["User", "modify"]]
+                   ["User", "modify"],
+                   ["GlobalResource", "view"],
+                   ["GlobalResource", "modify"],
+                   ["GlobalResource", "create"],
+                   ["StandaloneResource", "create"],
+                   ["StandaloneResource", "view"],
+                   ["StandaloneResource", "modify"],
+                   ["ParentResource", "create"],
+                   ["ParentResource", "view"],
+                   ["ParentResource", "modify"],
+                   ["ChildResource", "create"],
+                   ["ChildResource", "view"],
+                   ["ChildResource", "modify"]]
+      priv_data.each do |target_type, action|
+        FactoryGirl.create(:privilege, :target_type => target_type,
+                           :action => action, :role_id => role.id)
+      end
+    end
+  end
+
+  factory :global_resource_role, :parent => :role do
+    name 'GlobalResource Admin'
+    after(:create) do |role, evaluator|
+      priv_data = [["GlobalResource", "view"],
+                   ["GlobalResource", "modify"],
+                   ["GlobalResource", "create"]]
+      priv_data.each do |target_type, action|
+        FactoryGirl.create(:privilege, :target_type => target_type,
+                           :action => action, :role_id => role.id)
+      end
+    end
+  end
+
+  factory :standalone_creator_role, :parent => :role do
+    name 'StandaloneResource Creator'
+    after(:create) do |role, evaluator|
+      priv_data = [["StandaloneResource", "create"]]
+      priv_data.each do |target_type, action|
+        FactoryGirl.create(:privilege, :target_type => target_type,
+                           :action => action, :role_id => role.id)
+      end
+    end
+  end
+  factory :standalone_owner_role, :parent => :role do
+    name 'StandaloneResource Owner'
+    scope 'StandaloneResource'
+    after(:create) do |role, evaluator|
+      priv_data = [["StandaloneResource", "view"],
+                  ["StandaloneResource", "modify"]]
+      priv_data.each do |target_type, action|
+        FactoryGirl.create(:privilege, :target_type => target_type,
+                           :action => action, :role_id => role.id)
+      end
+    end
+  end
+
+  factory :parent_owner_role, :parent => :role do
+    name 'ParentResource Owner'
+    scope 'ParentResource'
+    after(:create) do |role, evaluator|
+      priv_data = [["ChildResource", "view"],
+                  ["ChildResource", "modify"],
+                  ["ChildResource", "create"],
+                  ["ParentResource", "view"],
+                  ["ParentResource", "modify"]]
+      priv_data.each do |target_type, action|
+        FactoryGirl.create(:privilege, :target_type => target_type,
+                           :action => action, :role_id => role.id)
+      end
+    end
+  end
+  factory :child_owner_role, :parent => :role do
+    name 'ChildResource Owner'
+    scope 'ChildResource'
+    after(:create) do |role, evaluator|
+      priv_data = [["ChildResource", "view"],
+                  ["ChildResource", "modify"]]
       priv_data.each do |target_type, action|
         FactoryGirl.create(:privilege, :target_type => target_type,
                            :action => action, :role_id => role.id)

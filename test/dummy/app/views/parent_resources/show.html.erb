@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @parent_resource.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @parent_resource.description %>
+</p>
+
+<h3>child_resources</h3>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @child_resources.each do |child_resource| %>
+  <tr>
+    <td><%= child_resource.name %></td>
+    <td><%= child_resource.description %></td>
+    <td><%= link_to 'Show', child_resource %></td>
+    <td><%= link_to 'Edit', edit_child_resource_path(child_resource) if check_privilege(Alberich::Privilege::MODIFY, child_resource) %></td>
+    <td><%= link_to 'Destroy', child_resource, method: :delete, data: { confirm: 'Are you sure?' } if check_privilege(Alberich::Privilege::MODIFY, child_resource) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Child resource', new_child_resource_path(:parent_resource_id=>@parent_resource) if check_privilege(Alberich::Privilege::CREATE, ChildResource, @parent_resource)%>
+
+<br />
+<br />
+
+
+<%= link_to 'Edit', edit_parent_resource_path(@parent_resource) if check_privilege(Alberich::Privilege::MODIFY, @parent_resource) %> |
+<%= link_to 'Back', parent_resources_path %>

@@ -8,7 +8,7 @@
     - unless @permission_object == Alberich::BasePermissionObject.general_permission_scope
       - if @show_inherited
         %li= link_to "Direct Access", params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
-        %li= link_to t"Global Access", params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
+        %li= link_to "Global Access", params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
       - elsif @show_global
         %li= link_to "Direct Accress", params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
         %li= link_to "Inherited Access", params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
@@ -35,7 +35,7 @@
       %tr{:class => cycle('nostripe','stripe')}
         %td= permission.entity.entity_target.class.model_name.human
         %td= link_to permission.entity.name, main_app.url_for(permission.entity.entity_target)
-        %td= t(permission.role.name, :scope=> :role_defs, :default => permission.role.name)
+        %td= permission.role.name
         - if !(@show_inherited || @show_global) && has_admin_perms && !(prevent_admin_deletion && Alberich::BasePermissionObject.is_global_admin_perm(permission))
           %td= link_to 'Destroy', permission, method: :delete, data: { confirm: 'Are you sure?' }
         - if @show_inherited

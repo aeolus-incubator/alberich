@@ -1,0 +1,25 @@
+<h1>Listing child_resources</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Parentresource</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @child_resources.each do |child_resource| %>
+  <tr>
+    <td><%= child_resource.name %></td>
+    <td><%= child_resource.description %></td>
+    <td><%= child_resource.ParentResource %></td>
+    <td><%= link_to 'Show', child_resource %></td>
+    <td><%= link_to 'Edit', edit_child_resource_path(child_resource) if check_privilege(Alberich::Privilege::MODIFY, child_resource) %></td>
+    <td><%= link_to 'Destroy', child_resource, method: :delete, data: { confirm: 'Are you sure?' } if check_privilege(Alberich::Privilege::MODIFY, child_resource) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

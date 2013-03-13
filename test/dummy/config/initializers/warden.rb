@@ -66,7 +66,7 @@ Warden::Manager.after_set_user do |user,auth,opts|
   session = auth.env['rack.session']
   perm_session_id = session[:permission_session_id]
   if perm_session_id
-    perm_session = Alberich::PermissionSession.find(perm_session_id)
+    perm_session = Alberich::PermissionSession.find_by_id(perm_session_id)
     #if session_id doesn't match what we originally set, update the value
     # This isn't needed for perm checks (that's why we store
     # permission_session_id), but matching the correct session_id will facilitate

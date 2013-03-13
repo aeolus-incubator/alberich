@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @child_resource.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @child_resource.description %>
+</p>
+
+<p>
+  <b>Parent resource:</b>
+  <%= link_to @child_resource.parent_resource.name, @child_resource.parent_resource %>
+</p>
+
+
+<%= link_to 'Edit', edit_child_resource_path(@child_resource) if check_privilege(Alberich::Privilege::MODIFY, @child_resource) %> |
+<%= link_to 'Back', child_resources_path %>

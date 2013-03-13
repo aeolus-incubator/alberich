@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :child_resources
+
+
+  resources :parent_resources
+
+
+  resources :standalone_resources
+
+
+  resources :global_resources
+
+
   resources :user_groups do
     member do
       get 'add_members'

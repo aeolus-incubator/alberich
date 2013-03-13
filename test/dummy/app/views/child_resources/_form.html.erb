@@ -1,0 +1,30 @@
+<%= form_for(@child_resource) do |f| %>
+  <% if @child_resource.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@child_resource.errors.count, "error") %> prohibited this child_resource from being saved:</h2>
+
+      <ul>
+      <% @child_resource.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_resource %><br />
+    <%= f.hidden_field :parent_resource_id %><br />
+    <%= f.label @child_resource.parent_resource.name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130107043252) do
+ActiveRecord::Schema.define(:version => 20130226151256) do
 
   create_table "alberich_base_permission_objects", :force => true do |t|
     t.string   "name",       :null => false
@@ -87,9 +87,40 @@ ActiveRecord::Schema.define(:version => 20130107043252) do
     t.datetime "updated_at",                           :null => false
   end
 
+  create_table "child_resources", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "parent_resource_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "child_resources", ["parent_resource_id"], :name => "index_child_resources_on_parent_resource_id"
+
+  create_table "global_resources", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "members_user_groups", :id => false, :force => true do |t|
     t.integer "user_group_id", :null => false
     t.integer "member_id",     :null => false
+  end
+
+  create_table "parent_resources", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "standalone_resources", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "user_groups", :force => true do |t|

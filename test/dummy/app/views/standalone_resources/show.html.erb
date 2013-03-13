@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @standalone_resource.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @standalone_resource.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_standalone_resource_path(@standalone_resource) if check_privilege(Alberich::Privilege::MODIFY, @standalone_resource)%> |
+<%= link_to 'Back', standalone_resources_path %>
