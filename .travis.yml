@@ -1,0 +1,23 @@
+language: ruby
+rvm:
+  - 1.9.3
+# Disable rbx for now, seems to have a bug
+# https://github.com/rubinius/rubinius/issues/1813
+#  - rbx-19mode
+env:
+  - SUITE=spec
+install:
+  - bundle
+before_script:
+  - rake db:setup
+  - rake -f test/dummy/Rakefile test:prepare
+script:
+  - rake $SUITE
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#aeolus"
+    use_notice: true
+    skip_join: true
+    on_success: change
+    on_failure: change
