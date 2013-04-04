@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    alberich (0.1.1)
+    alberich (0.2.0)
       haml
       haml-rails
       jquery-rails
