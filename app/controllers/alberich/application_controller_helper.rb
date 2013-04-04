@@ -16,8 +16,19 @@ module Alberich
       @roles = Role.all_by_scope
       @inline = true
       set_permissions_header(@entity)
+      # filter permissions if method provided
+      @permissions = filter_permissions_for_profile(@permissions)
     end
-
+    # Override this in application_controller if application does filtering
+    # on permissions list for profile UI
+    def filter_permissions_for_profile(perms)
+      perms
+    end
+    # Override this in application_controller if application does filtering
+    # on permissions list
+    def filter_permissions(perms)
+      perms
+    end
     def add_permissions_common(inline, perm_obj, path_prefix = '',
                                polymorphic_path_extras = {})
       @permission_object = perm_obj
@@ -29,6 +40,7 @@ module Alberich
         @roles = Role.find_all_by_scope(@permission_object.class.name)
       end
       set_permissions_header
+      @permissions = filter_permissions(@permissions)
     end
     def add_permissions_inline(perm_obj, path_prefix = '',
                                polymorphic_path_extras = {})

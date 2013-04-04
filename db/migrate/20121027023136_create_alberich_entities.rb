@@ -1,4 +1,6 @@
 class CreateAlberichEntities < ActiveRecord::Migration
+  class Alberich::Entity < ActiveRecord::Base; end
+
   def up
     create_table :alberich_entities do |t|
       t.string :name
