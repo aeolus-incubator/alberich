@@ -1,6 +1,6 @@
 module Alberich
   class Entity < ActiveRecord::Base
-    attr_accessible :entity_target, :name
+    attr_accessible :entity_target, :entity_target_id, :name
 
     belongs_to :entity_target, :polymorphic => true
     validates_presence_of :entity_target_id

@@ -163,6 +163,10 @@ module Alberich
                  { :name => "Role", :sortable => false }]
     end
 
+    # this allows any controller actions needed in the application
+    # to set up additional elements for global permissions UI view
+    def global_permission_ui_hook
+    end
     def set_permission_object (required_role=Privilege::PERM_SET)
       obj_type = params[:permission_object_type]
       id = params[:permission_object_id]
@@ -185,9 +189,9 @@ module Alberich
       unless @return_path
         if @permission_object == BasePermissionObject.general_permission_scope
           @return_path = permissions_path(:return_from_permission_change => true)
-          # FIXME probably remove this: set_admin_users_tabs 'permissions'
+          global_permission_ui_hook
         else
-          @return_path = send("#{@path_prefix}polymorphic_path",
+          @return_path = main_app.send("#{@path_prefix}polymorphic_path",
                               @permission_object.respond_to?(
                                 :to_polymorphic_path_param) ?
                               @permission_object.to_polymorphic_path_param(

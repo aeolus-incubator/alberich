@@ -72,7 +72,7 @@ module Alberich
   
       respond_to do |format|
         if @role.update_attributes(params[:role])
-          format.html { redirect_to @role, notice: "New role added"}
+          format.html { redirect_to @role, notice: "Role updated successfully"}
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
